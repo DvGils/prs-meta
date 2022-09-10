@@ -3,7 +3,7 @@ prs meta
 
 **prs meta** a wrapper for pyreadstat's metadata objects
 
-documentation: https://prs-meta.readthedocs.io/en/latest/src.html
+documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
 
 **Usage**
 ``pip install prs-meta``
