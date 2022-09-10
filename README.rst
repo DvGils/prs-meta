@@ -5,8 +5,17 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
 
 documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
 
-**Usage**
+**Installation**
 
 ``pip install prs-meta``
 
-``from prs.meta import Meta``
+**Usage**
+
+.. codeblok:: python
+
+    from prs.meta import meta
+
+    df = pd.DataFrame({'my_column': [1,2,3]})
+    M = Meta(df)
+    M.view('my_column')
+
