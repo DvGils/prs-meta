@@ -7,7 +7,7 @@
 """
 
 #import pyreadstat as prs
-import pandas as pd
+#import pandas as pd
 
 class Meta:
     """
