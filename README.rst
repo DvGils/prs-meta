@@ -5,7 +5,7 @@ prs meta
 
 documentation: https://prs-meta.readthedocs.io/en/latest/src.html
 
+**Usage**
+``pip install prs-meta``
 
-.. note::
-
-   This project is under active development.
+``from prs.meta import Meta``
