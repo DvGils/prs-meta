@@ -18,7 +18,7 @@ Create from df::
     from prs.meta import Meta
     
     df = pd.DataFrame({'my_column': [1,2,3]})
-    M = Meta(df)
+    M = Meta(df=df)
     M.view('my_column')
 
 
