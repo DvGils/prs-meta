@@ -12,7 +12,6 @@ documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
 
 **Usage**
 ---------
-.. codeblok::
 
     from prs.meta import meta
 
