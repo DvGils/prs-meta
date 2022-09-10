@@ -13,9 +13,10 @@ documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
 **Usage**
 ---------
 
- ``   from prs.meta import meta
+Usage::
 
     df = pd.DataFrame({'my_column': [1,2,3]})
     M = Meta(df)
-    M.view('my_column')``
+    M.view('my_column')
+
 
