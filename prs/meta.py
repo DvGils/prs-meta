@@ -6,8 +6,8 @@
 |       pandas
 """
 
-import pyreadstat as prs
-import pandas as pd
+#import pyreadstat as prs
+#import pandas as pd
 
 class Meta:
     """
