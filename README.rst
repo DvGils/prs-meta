@@ -6,12 +6,13 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
 documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
 
 **Installation**
+----------------
 
 ``pip install prs-meta``
 
 **Usage**
-
-.. codeblok:: python
+---------
+.. codeblok::
 
     from prs.meta import meta
 
