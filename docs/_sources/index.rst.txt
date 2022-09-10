@@ -12,9 +12,3 @@ Welcome to prs meta's documentation!
 
    modules
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

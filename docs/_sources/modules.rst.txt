@@ -1,7 +1,7 @@
-src
+prs
 ===
 
 .. toctree::
    :maxdepth: 1
 
-   src
+   prs
