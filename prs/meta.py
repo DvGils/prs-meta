@@ -24,6 +24,7 @@
 
 import pyreadstat as prs
 import pandas as pd
+import os
 
 class Meta:
     """
@@ -389,6 +390,8 @@ class Meta:
             raise TypeError("filename (param 1) should be a string")
         if not filename.endswith('.sav'):
             filename = filename + '.sav'
+        if os.path.exists(filename):
+            raise FileExistsError(f'filename already exists')
         try:
             prs.write_sav(self.df, 
                         filename, 
@@ -400,5 +403,4 @@ class Meta:
                         )
         except Exception as e:
            print(f'unable to write to file: {e}')
-        
         
