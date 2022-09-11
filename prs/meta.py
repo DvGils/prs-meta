@@ -217,25 +217,25 @@ class Meta:
             raise ValueError(f"{col_type} is not a valid argument. Use any of 'str', 'int', 'float'")
 
 
-    def add_measures(self, col_name: str, measures: str) -> None:
+    def add_measure(self, col_name: str, measure: str) -> None:
         """
-        Adds the 'measures' of a column to meta data
+        Adds the 'measure' of a column to meta data
 
         :param col_name: column name
-        :param measures: any of *nominal*, *ordinal*, *scale*
+        :param measure: any of *nominal*, *ordinal*, *scale*
         :example:
-            >>> m.add_measures('my_column', 'nominal')
+            >>> m.add_measure('my_column', 'nominal')
             >>> print(m.measures['my_column'])
             nominal
 
         """
         self._check_col(col_name)
-        if not isinstance(measures, str):
+        if not isinstance(measure, str):
             raise TypeError("measures (param 2) should be a string")
-        if measures.lower() in ["nominal", "ordinal", "scale"]:
-            self.measures[col_name] = measures
+        if measure.lower() in ["nominal", "ordinal", "scale"]:
+            self.measures[col_name] = measure
         else:
-            raise ValueError(f"'{measures}' is not a valid argument, use any of 'nominal', 'ordinal', 'scale'")
+            raise ValueError(f"'{measure}' is not a valid argument, use any of 'nominal', 'ordinal', 'scale'")
 
 
     def new(self, col_name: str, col_type: str='int') -> None:
@@ -258,16 +258,16 @@ class Meta:
         self.add_column_label(col_name, col_name)
         if col_type == 'str' or self.df[col_name].dtype == 'object':
             self.add_type(col_name, 'str')
-            self.add_measures(col_name, 'nominal')
+            self.add_measure(col_name, 'nominal')
         elif col_type == 'int' and str(self.df[col_name].dtype).startswith('int'):  
             self.add_type(col_name, 'int')
             if self.df[col_name].max() > 50:
-                self.add_measures(col_name, 'scale')
+                self.add_measure(col_name, 'scale')
             else:
-                self.add_measures(col_name, 'nominal')
+                self.add_measure(col_name, 'nominal')
         elif col_type == 'float' or str(self.df[col_name].dtype).startswith('float'):
             self.add_type(col_name, 'float')
-            self.add_measures(col_name, 'scale')
+            self.add_measure(col_name, 'scale')
 
 
     def view(self, col_name: str=None):

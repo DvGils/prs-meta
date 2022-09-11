@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 DESCRIPTION = 'wrapper for pyreadstat'
 LONG_DESCRIPTION = 'wrapper for pyreadstat to easily read, create, and alter .sav files'
 
