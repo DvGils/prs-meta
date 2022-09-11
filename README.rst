@@ -8,16 +8,18 @@ https://prs-meta.rtfd.io/en/latest/prs.html
 
 **Requirements:**
      `pyreadstat 1.1.6 <https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html>`_
-    pandas
+     pandas
  
+
 **Installation:**
       ``pip install prs-meta``
+
 
 **Usage:**
      ``from prs.meta import Meta``
 
   
-The Meta object has the following attributes:
+**The Meta object has the following attributes:**
 
   ``df``: pandas DataFrame
 
