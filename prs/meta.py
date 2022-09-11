@@ -381,12 +381,15 @@ class Meta:
             self.df.drop(col_name, axis='columns', inplace=True)
 
 
-    def write_to_file(self, filename: str="output.sav") -> None:
+    def write_to_file(self, filename: str="output.sav", with_open=False) -> None:
         """
         Writes the DataFrame and meta data to an SPSS file
 
         :param filename: name of the new file
         :type filename: str, optional
+        :param with_open: if set to True, will open the SPSS file after writing (Windows only)
+        :type with_open: bool, optional
+
         """
         if not isinstance(filename, str):
             raise TypeError("filename (param 1) should be a string")
@@ -403,6 +406,11 @@ class Meta:
                         variable_measure=self.measures,
                         variable_format=self.types
                         )
+            if with_open == True:
+                try:
+                    os.startfile(filename)
+                raise KeyError(f"cannot open {filename}")
+
         except Exception as e:
            print(f'unable to write to file: {e}')
         
