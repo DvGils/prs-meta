@@ -12,14 +12,14 @@
 |       ``from prs.meta import Meta``
 |
 |  The Meta object has the following attributes:
-|    :attributes df: pandas DataFrame
-|    :attributes meta: original meta object from pyreadstat (if provided)
-|    :attributes names: list of column names
-|    :attributes labels: dict of column names mapped to column labels
-|    :attributes value_labels: dict of column names mapped to value labels
-|    :attributes types: dict of column names mapped to their type in SPSS format
-|    :attributes measures: dict of column names mapped to their measure (nominal, ordinal, scale)
-|    :attributes missing: dict of column names mapped to their missing ranges
+|    ``df``: pandas DataFrame  
+|    ``meta``: original meta object from pyreadstat (if provided)
+|    ``names``: list of column names
+|    ``labels``: dict of column names mapped to column labels
+|    ``value_labels``: dict of column names mapped to value labels
+|    ``types``: dict of column names mapped to their type in SPSS format
+|    ``measures``: dict of column names mapped to their measure (nominal, ordinal, scale)
+|    ``missing``: dict of column names mapped to their missing ranges
 """
 
 import pyreadstat as prs
