@@ -5,8 +5,6 @@
 
 import os
 import sys
-import pyreadstat
-import pandas
 sys.path.insert(0, os.path.abspath('..'))
 
 
