@@ -46,9 +46,7 @@ class Meta:
         Builds class instance from file, DataFrame, or both a DataFrame and meta data object
         """
         if len(self.args) == 1:
-            print('ja')
             if isinstance(self.args[0], pd.DataFrame) and not self.args[0].empty:
-                print('ja')
                 self._from_df()
 
             if isinstance(self.args[0], str):
