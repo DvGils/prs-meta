@@ -18,10 +18,19 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
 
 
 **Usage:**
-     >>> from prs.meta import Meta
+    >>> from prs.meta import Meta
+    >>> df = pd.DataFrame({'my_column': [1, 2, 3]})
+    >>> m = Meta(df)
+    >>> m.view()
+    my_column
+    type: numeric (F1.0)
+    measure: nominal
+    label: my_column
+    value labels: undefined
+    missing ranges: undefined
 
   
-**The Meta object can have following attributes:**
+**The Meta object can have the following attributes:**
 
     ``df``  A pandas DataFrame
 
