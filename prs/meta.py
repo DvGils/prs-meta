@@ -9,7 +9,8 @@
 |       ``pip install prs-meta``
 |
 |  **Usage:**
-|       ``from prs.meta import Meta``
+|       >>> from prs.meta import Meta
+|
 |
 |  The Meta object has the following attributes:
 |    ``df``: pandas DataFrame  
@@ -44,7 +45,7 @@ class Meta:
     :example (df only):
         >>> df = pd.DataFrame({'col1': [1,2,3], 'col2': ['hi','hi','hi']})
         >>> m = Meta(df)
-        >>> print(m.types['col2])
+        >>> print(m.types['col2'])
         A2
 
     :example (df + meta):
@@ -65,7 +66,6 @@ class Meta:
         if len(self.args) == 1:
             if isinstance(self.args[0], pd.DataFrame) and not self.args[0].empty:
                 self._from_df()
-
             if isinstance(self.args[0], str):
                 self._from_file()
         elif len(self.args) == 2:
