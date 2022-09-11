@@ -22,6 +22,7 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
     >>> df = pd.DataFrame({'my_column': [1, 2, 3]})
     >>> m = Meta(df)
     >>> m.view()
+    ==================================================
     my_column
     type: numeric (F1.0)
     measure: nominal

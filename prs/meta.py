@@ -308,7 +308,10 @@ class Meta:
         if col_name:
             self._print(col_name)
         else:
-            for col in self.df.columns and len(self.df.columns)<100:
+            x = self.names
+            if len(x)>100:
+                x = x[:100]
+            for col in x:
                 print(50*'=')
                 self._print(col)
 
