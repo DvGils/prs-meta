@@ -21,22 +21,22 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
      ``from prs.meta import Meta``
 
   
-**The Meta object has the following attributes:**
+**The Meta object can have following attributes:**
 
-    ``df``: pandas DataFrame
+    ``df``  A pandas DataFrame
 
-    ``meta``: original meta object from pyreadstat (if provided) 
+    ``meta``  The original meta object from pyreadstat (if provided) 
 
-    ``names``: list of column names
+    ``names``  A list of column names
 
-    ``labels``: dict of column names mapped to column labels
+    ``labels``  A dict of column names mapped to column labels
 
-    ``value_labels``: dict of column names mapped to value labels
+    ``value_labels``  A dict of column names mapped to value labels
 
-    ``types``: dict of column names mapped to their type in SPSS format
+    ``types``  A dict of column names mapped to their type in SPSS format
 
-    ``measures``: dict of column names mapped to their measure (nominal, ordinal, scale)
+    ``measures``  A dict of column names mapped to their measure (nominal, ordinal, scale)
 
-    ``missing``: dict of column names mapped to their missing ranges
+    ``missing``  A dict of column names mapped to their missing ranges
 
 
