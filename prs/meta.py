@@ -36,8 +36,8 @@ class Meta:
         ['list', 'of', 'column', 'names']
 
     """
-    def __init__(self, **kwargs):
-        self.kwargs = kwargs
+    def __init__(self, *args):
+        self.args = args
         self._build()
 
     
@@ -45,25 +45,40 @@ class Meta:
         """
         Builds class instance from file, DataFrame, or both a DataFrame and meta data object
         """
-        # Read from file
-        if 'path' in list(self.kwargs.keys()):
+        if len(self.args) == 1:
+            print('ja')
+            if isinstance(self.args[0], pd.DataFrame) and not self.args[0].empty:
+                print('ja')
+                self._from_df()
+
+            if isinstance(self.args[0], str):
+                self._from_file()
+        elif len(self.args) == 2:
+            if isinstance(self.args[0], pd.DataFrame) and isinstance(self.args[1], object):
+                self._from_df()
+        else:
+            raise ValueError("cannot load or build object from given parameters")
+
+
+    def _from_file(self):
+        # Read from file:
             try:
-                self.df, self.meta = prs.read_sav(self.kwargs['path'])
+                self.df, self.meta = prs.read_sav(self.args[0])
                 self._get()
             except Exception as e:
                 raise FileNotFoundError(f"unable to readfile: {e}")
-        elif 'df' in list(self.kwargs.keys()):
-            # Read from dataframe
-            if isinstance(self.kwargs['df'], pd.DataFrame) and not self.kwargs['df'].empty and not 'meta' in list(self.kwargs.keys()):
-                self.df = self.kwargs['df']
-                self._set()
-            # Read from dataframe + meta data
-            elif isinstance(self.kwargs['df'], pd.DataFrame) and not self.kwargs['df'].empty and 'meta' in list(self.kwargs.keys()):
-                self.df = self.kwargs['df']
-                self.meta = self.kwargs['meta']
-                self._get()
-        else:
-            raise ValueError("insufficient parameters")
+
+    
+    def _from_df(self):
+        # Read from dataframe
+        if isinstance(self.args[0], pd.DataFrame) and not self.args[0].empty and len(self.args) == 1:
+            self.df = self.args[0]
+            self._set()
+        # Read from dataframe + meta data
+        elif isinstance(self.args[0], pd.DataFrame) and not self.args[0].empty and len(self.args) == 2:
+            self.df = self.args[0]
+            self.meta = self.args[1]
+            self._get()
 
     
     def _get(self):
@@ -346,7 +361,7 @@ class Meta:
         if col_name in list(self.labels.keys()):
             del self.labels[col_name]
         if target == 'all':
-            self.df = self.df.drop(col_name, axis='columns', inplace=True)
+            self.df.drop(col_name, axis='columns', inplace=True)
 
 
     def write_to_file(self, filename: str="output.sav") -> None:
