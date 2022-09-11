@@ -37,18 +37,18 @@ class Meta:
     :param meta: pyreadstat meta data object from SPSS file
     :type meta: object, optional
     :example (from path):
-        >>> m = Meta(path="path_to_file.sav")
+        >>> m = Meta("path_to_file.sav")
         >>> print(m.names)
         ['list', 'of', 'column', 'names']
 
     :example (df only):
         >>> df = pd.DataFrame({'col1': [1,2,3], 'col2': ['hi','hi','hi']})
-        >>> m = Meta(df=df)
+        >>> m = Meta(df)
         >>> print(m.types['col2])
         A2
 
     :example (df + meta):
-        >>> m = Meta(df=df, meta=meta)
+        >>> m = Meta(df, meta)
         >>> print(m.names)
         ['list', 'of', 'column', 'names']
 
