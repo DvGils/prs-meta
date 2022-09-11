@@ -409,7 +409,8 @@ class Meta:
             if with_open == True:
                 try:
                     os.startfile(filename)
-                raise KeyError(f"cannot open {filename}")
+                except:
+                    raise KeyError(f"cannot open {filename}")
 
         except Exception as e:
            print(f'unable to write to file: {e}')
