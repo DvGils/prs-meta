@@ -13,26 +13,26 @@ class Meta:
     """
     Wrapper for pyreadstat to easily read, create and adjust .sav files.
 
-    :param path: path to an SPSS file. The DataFrame and metadata object will be constructed from this file, if provided.
+    :param path: path to an SPSS file. The DataFrame and meta data object will be constructed from this file, if provided.
     :type path: str, optional
-    :param df: pandas DataFrame. The DataFrame will be used to construct the metadata, if only a DataFrame is provided
+    :param df: pandas DataFrame. The DataFrame will be used to construct the meta data, if only a DataFrame is provided
     :type df: DataFrame, optional
-    :param meta: pyreadstat metadata object from SPSS file
+    :param meta: pyreadstat meta data object from SPSS file
     :type meta: object, optional
     :example (from path):
-        >>> M = Meta(path="path_to_file.sav")
-        >>> print(M.names)
+        >>> m = Meta(path="path_to_file.sav")
+        >>> print(m.names)
         ['list', 'of', 'column', 'names']
 
     :example (df only):
         >>> df = pd.DataFrame({'col1': [1,2,3], 'col2': ['hi','hi','hi']})
-        >>> M = Meta(df=df)
-        >>> print(M.types['col2])
+        >>> m = Meta(df=df)
+        >>> print(m.types['col2])
         A2
 
     :example (df + meta):
-        >>> M = Meta(df=df, meta=meta)
-        >>> print(M.names)
+        >>> m = Meta(df=df, meta=meta)
+        >>> print(m.names)
         ['list', 'of', 'column', 'names']
 
     """
@@ -43,7 +43,7 @@ class Meta:
     
     def _build(self):
         """
-        Building class instance from file, pandas DataFrame, or both a DataFrame and metadata object
+        Builds class instance from file, DataFrame, or both a DataFrame and meta data object
         """
         # Read from file
         if 'path' in list(self.kwargs.keys()):
@@ -51,24 +51,24 @@ class Meta:
                 self.df, self.meta = prs.read_sav(self.kwargs['path'])
                 self._get()
             except Exception as e:
-                raise FileNotFoundError(f"meta cannot load file from path. prs: {e}")
+                raise FileNotFoundError(f"unable to readfile: {e}")
         elif 'df' in list(self.kwargs.keys()):
             # Read from dataframe
             if isinstance(self.kwargs['df'], pd.DataFrame) and not self.kwargs['df'].empty and not 'meta' in list(self.kwargs.keys()):
                 self.df = self.kwargs['df']
                 self._set()
-            # Read from dataframe + metadata
+            # Read from dataframe + meta data
             elif isinstance(self.kwargs['df'], pd.DataFrame) and not self.kwargs['df'].empty and 'meta' in list(self.kwargs.keys()):
                 self.df = self.kwargs['df']
                 self.meta = self.kwargs['meta']
                 self._get()
         else:
-            raise ValueError("unable to make an instance of class Meta with the given parameters")
+            raise ValueError("insufficient parameters")
 
     
     def _get(self):
         """ 
-        Get metadata from class parameter
+        Get meta data from class parameter
         """
         self.names = self.meta.column_names
         self.labels = self.meta.column_names_to_labels
@@ -80,7 +80,7 @@ class Meta:
 
     def _set(self): 
         """
-        Build metadata from DataFrame
+        Build meta data from DataFrame
         """ 
         self.names = []
         self.labels = {}
@@ -123,13 +123,13 @@ class Meta:
 
     def add_column_label(self, col_name: str, col_label: str) -> None:
         """
-        Adds column names to metadata
+        Adds column names to meta data
 
         :param col_name: column name
         :param col_label: column label
         :example:
-            >>> M.add_column_label("my_column", "This is my column")
-            >>> print(M.labels["my_column"])
+            >>> m.add_column_label("my_column", "This is my column")
+            >>> print(m.labels["my_column"])
             This is my column
 
         """
@@ -141,14 +141,14 @@ class Meta:
 
     def add_value_labels(self, col_name: str, val_label: dict[int, str]) -> None:
         """
-        Adds a column's value labels to metadata
+        Adds a column's value labels to meta data
 
         :param col_name: column name
         :param val_label: values mapped to labels
         :example:
             >>> labels = {0: 'Not selected', 1: 'Selected'}
-            >>> M.add_value_labels('my_column', labels)
-            >>> print(M.value_labels['my_column'])
+            >>> m.add_value_labels('my_column', labels)
+            >>> print(m.value_labels['my_column'])
             {0: 'Not selected', 1: 'Selected'}
 
         """
@@ -160,7 +160,7 @@ class Meta:
 
     def add_type(self, col_name: str, col_type: str='int', decimals: int=0) -> None:
         """
-        Adds a column's type to metadata
+        Adds a column's type to meta data
 
         :param col_name: column name
         :param col_type: any of *str*, *int*, *float*. default = *int*
@@ -168,9 +168,9 @@ class Meta:
         :param decimals: the number of decimals that numeric values should display, default = 0
         :type decimals: int, optional
         :example:
-            >>> M.df['my_column'] = [12.3311, 15.2224, 9.8832]          
-            >>> M.add_type('my_column', 'float', decimals=3)
-            >>> print(M.types['my_column'])
+            >>> m.df['my_column'] = [12.3311, 15.2224, 9.8832]          
+            >>> m.add_type('my_column', 'float', decimals=3)
+            >>> print(m.types['my_column'])
             F6.3
 
         """
@@ -192,12 +192,13 @@ class Meta:
                 self.types[col_name] = f'F{max_width}.0'
 
         elif col_type == 'float':
-            if decimals <= 1:
-                dec = max([len(str(c).split('.')[-1]) for c in self.df[col_name]])
+            dec = max([len(str(c).split('.')[-1]) for c in self.df[col_name]])
+            if decimals == 0:
                 self.types[col_name] = f'F{max_width}.{dec}'
             else:
+                
                 if max_width <= decimals:
-                    raise ValueError(f"'decimals' ({decimals}) cannot be larger than the length of the LONGEST value ({max_width})")
+                    raise ValueError(f"'decimals' ({decimals}) cannot be larger than width ({max_width})")
                 self.types[col_name] = f'F{max_width}.{decimals}'
         else:
             raise ValueError(f"{col_type} is not a valid argument. Use any of 'str', 'int', 'float'")
@@ -205,13 +206,13 @@ class Meta:
 
     def add_measures(self, col_name: str, measures: str) -> None:
         """
-        Adds the 'measures' of a column to metadata
+        Adds the 'measures' of a column to meta data
 
         :param col_name: column name
         :param measures: any of *nominal*, *ordinal*, *scale*
         :example:
-            >>> M.add_measures('my_column', 'nominal')
-            >>> print(M.measures['my_column'])
+            >>> m.add_measures('my_column', 'nominal')
+            >>> print(m.measures['my_column'])
             nominal
 
         """
@@ -226,16 +227,16 @@ class Meta:
 
     def new(self, col_name: str, col_type: str='int') -> None:
         """ 
-        Add a new column to the metadata
+        Add a new column to the meta data
         
         :param col_name: column name
         :param col_type: any of *int*, *str*, *float*. default = *int*
         :type col_type: str, optional
         :example:
-            >>> M.new('my_column')
-            >>> M.types['my_column']
+            >>> m.new('my_column')
+            >>> m.types['my_column']
             F1.0
-            >>> M.measures['my_column']
+            >>> m.measures['my_column']
             nominal
 
         """
@@ -256,15 +257,17 @@ class Meta:
             self.add_measures(col_name, 'scale')
 
 
-    def view(self, col_name: str):
+    def view(self, col_name: str=None):
         """
-        Prints all of the metadata for a given column
+        |  Prints meta data for given column.
+        |  Will print meta data for all columns of df if none are specified
         
         :param col_name: column name
+        :type col_name: str, optional
         :example:
-            >>> M.df['my_column] = [1,2,3]
-            >>> M.new('my_column')
-            >>> M.view('my_column)
+            >>> m.df['my_column] = [1,2,3]
+            >>> m.new('my_column')
+            >>> m.view('my_column')
             my_column
             type: numeric (F1.0)
             measure: nominal
@@ -273,6 +276,14 @@ class Meta:
             missing ranges: undefined
 
         """
+        if col_name:
+            self._print(col_name)
+        else:
+            for col in self.df.columns:
+                print(50*'=')
+                self._print(col)
+
+    def _print(self, col_name):
         self._check_col(col_name)
         print(col_name)
         if not col_name in list(self.types.keys()):
@@ -281,7 +292,7 @@ class Meta:
             print(f'type: numeric ({self.types[col_name]})')
         elif self.types[col_name].startswith('A'):
             print(f'type: string ({self.types[col_name]})')
-        
+
         if not col_name in list(self.measures.keys()):
             print('measure: undefined')
         else:
@@ -300,12 +311,13 @@ class Meta:
         if not col_name in list(self.missing.keys()):
             print('missing ranges: undefined')
         else:
-            print(f'missing ranges: {self.missing[col_name]}') 
+            print(f'missing ranges: {self.missing[col_name]}')
+
 
 
     def write_to_file(self, filename: str="output.sav") -> None:
         """
-        Writes the DataFrame and metadata to an SPSS file
+        Writes the DataFrame and meta data to an SPSS file
 
         :param filename: name of the new file
         :type filename: str, optional
