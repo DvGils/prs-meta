@@ -3,14 +3,12 @@ prs meta
 
 A wrapper for pyreadstat to easily read, create, and adjust .sav files
 
-documentation: https://prs-meta.readthedocs.io/en/latest/prs.html
-
-
-Wrapper for pyreadstat to easily read, create and adjust .sav files.
+**documentation**: 
+https://prs-meta.rtfd.io/en/latest/prs.html
 
 **Requirements:**
      `pyreadstat 1.1.6 <https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html>`_
-      pandas
+    pandas
  
 **Installation:**
       ``pip install prs-meta``
@@ -18,6 +16,7 @@ Wrapper for pyreadstat to easily read, create and adjust .sav files.
 **Usage:**
      ``from prs.meta import Meta``
 
+  
 The Meta object has the following attributes:
 
   ``df``: pandas DataFrame
@@ -33,7 +32,7 @@ The Meta object has the following attributes:
   ``types``: dict of column names mapped to their type in SPSS format
 
   ``measures``: dict of column names mapped to their measure (nominal, ordinal, scale)
-  
+
   ``missing``: dict of column names mapped to their missing ranges
 
 
