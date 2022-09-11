@@ -6,8 +6,8 @@
 |       pandas
 """
 
-#import pyreadstat as prs
-#import pandas as pd
+import pyreadstat as prs
+import pandas as pd
 
 class Meta:
     """
@@ -196,7 +196,7 @@ class Meta:
             if decimals == 0:
                 self.types[col_name] = f'F{max_width}.{dec}'
             else:
-                
+
                 if max_width <= decimals:
                     raise ValueError(f"'decimals' ({decimals}) cannot be larger than width ({max_width})")
                 self.types[col_name] = f'F{max_width}.{decimals}'
@@ -283,6 +283,7 @@ class Meta:
                 print(50*'=')
                 self._print(col)
 
+
     def _print(self, col_name):
         self._check_col(col_name)
         print(col_name)
@@ -314,6 +315,39 @@ class Meta:
             print(f'missing ranges: {self.missing[col_name]}')
 
 
+    def purge(self, col_name: str, target='meta') -> None:
+        """ 
+        Deletes a column's meta data
+
+        :param col_name: column name
+        :param target: will also delete column from DataFrame if target == 'all'
+        :type target: str, optional
+        :example:
+            >>> m.purge('my_column')
+            >>> m.view('my_column')
+            my_column
+            type: undefined
+            measure: undefined
+            label: undefined
+            value labels: undefined
+            missing ranges: undefined            
+            
+        """
+        if col_name in self.names:
+            self.names.remove(col_name)
+        if col_name in list(self.types.keys()):
+            del self.types[col_name]
+        if col_name in list(self.measures.keys()):
+            del self.measures[col_name]
+        if col_name in list(self.missing.keys()):
+            del self.missing[col_name]
+        if col_name in list(self.value_labels.keys()):
+            del self.value_labels[col_name]
+        if col_name in list(self.labels.keys()):
+            del self.labels[col_name]
+        if target == 'all':
+            self.df = self.df.drop(col_name, axis='columns', inplace=True)
+
 
     def write_to_file(self, filename: str="output.sav") -> None:
         """
@@ -326,13 +360,16 @@ class Meta:
             raise TypeError("filename (param 1) should be a string")
         if not filename.endswith('.sav'):
             filename = filename + '.sav'
-        prs.write_sav(self.df, 
-                      filename, 
-                      column_labels=self.labels,
-                      variable_value_labels=self.value_labels,
-                      missing_ranges=self.missing,
-                      variable_measure=self.measures,
-                      variable_format=self.types
-                      )
+        try:
+            prs.write_sav(self.df, 
+                        filename, 
+                        column_labels=self.labels,
+                        variable_value_labels=self.value_labels,
+                        missing_ranges=self.missing,
+                        variable_measure=self.measures,
+                        variable_format=self.types
+                        )
+        except Exception as e:
+           print(f'unable to write to file: {e}')
         
         
