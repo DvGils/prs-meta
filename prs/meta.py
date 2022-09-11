@@ -275,7 +275,7 @@ class Meta:
     def view(self, col_name: str=None):
         """
         |  Prints meta data for given column.
-        |  Will print meta data for all columns of df if none are specified
+        |  Will print meta data for all columns in df if none are specified
         
         :param col_name: column name
         :type col_name: str, optional
@@ -294,7 +294,7 @@ class Meta:
         if col_name:
             self._print(col_name)
         else:
-            for col in self.df.columns:
+            for col in self.df.columns and len(self.df.columns)<100:
                 print(50*'=')
                 self._print(col)
 
@@ -335,7 +335,7 @@ class Meta:
         Deletes a column's meta data
 
         :param col_name: column name
-        :param target: will also delete column from DataFrame if target == 'all'
+        :param target: will also delete column from df if target == 'all'
         :type target: str, optional
         :example:
             >>> m.purge('my_column')
