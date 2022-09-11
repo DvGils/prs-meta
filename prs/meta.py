@@ -9,8 +9,7 @@
 |       ``pip install prs-meta``
 |
 |  **Usage:**
-|       >>> from prs.meta import Meta
-|
+|       ``from prs.meta import Meta``
 |
 |  The Meta object has the following attributes:
 |    ``df``: pandas DataFrame  

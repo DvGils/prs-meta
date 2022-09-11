@@ -18,7 +18,7 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
 
 
 **Usage:**
-     ``from prs.meta import Meta``
+     >>> from prs.meta import Meta
 
   
 **The Meta object can have following attributes:**
