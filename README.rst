@@ -9,8 +9,8 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
 
 
 **Requirements:**
-    `pyreadstat 1.1.6 <https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html>`_
-    pandas
+    1. `pyreadstat 1.1.6 <https://ofajardo.github.io/pyreadstat_documentation/_build/html/index.html>`_
+    2. pandas
  
 
 **Installation:**
@@ -23,20 +23,20 @@ A wrapper for pyreadstat to easily read, create, and adjust .sav files
   
 **The Meta object has the following attributes:**
 
-  ``df``: pandas DataFrame
+    ``df``: pandas DataFrame
 
-  ``meta``: original meta object from pyreadstat (if provided) 
+    ``meta``: original meta object from pyreadstat (if provided) 
 
-  ``names``: list of column names
+    ``names``: list of column names
 
-  ``labels``: dict of column names mapped to column labels
+    ``labels``: dict of column names mapped to column labels
 
-  ``value_labels``: dict of column names mapped to value labels
+    ``value_labels``: dict of column names mapped to value labels
 
-  ``types``: dict of column names mapped to their type in SPSS format
+    ``types``: dict of column names mapped to their type in SPSS format
 
-  ``measures``: dict of column names mapped to their measure (nominal, ordinal, scale)
+    ``measures``: dict of column names mapped to their measure (nominal, ordinal, scale)
 
-  ``missing``: dict of column names mapped to their missing ranges
+    ``missing``: dict of column names mapped to their missing ranges
 
 
