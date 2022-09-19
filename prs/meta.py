@@ -121,6 +121,7 @@ class Meta:
             self.new(col)
 
 
+
     def _check_col(self, col_name: str):
         """
         Checks input type of col_name and whether the column exists
@@ -210,27 +211,42 @@ class Meta:
             raise TypeError("decimals (param 3) should be an integer")
 
         max_width = max([len(a) for a in self.df[col_name].astype('str')])
+        pref = max([len(str(c).split('.')[0]) for c in self.df[col_name]])
 
         if col_type == 'str':
             self.types[col_name] = f'A{max_width}'
 
         elif col_type == 'int':
             if self.df[col_name].dtype == 'object':
-                self.types[col_name] = f'A{max_width}'
+                self.types[col_name] = f'A{pref}'
             else:
-                self.types[col_name] = f'F{max_width}.0'
+                self.types[col_name] = f'F{pref}.0'
 
         elif col_type == 'float':
+            if self._should_be_int(self.df[col_name]):
+                self.types[col_name] = f'F{pref}.0'
+                return
             dec = max([len(str(c).split('.')[-1]) for c in self.df[col_name]])
             if decimals == 0:
-                self.types[col_name] = f'F{max_width}.{dec}'
+                self.types[col_name] = f'F{pref}.{dec}'
             else:
 
                 if max_width <= decimals:
                     raise ValueError(f"'decimals' ({decimals}) cannot be larger than width ({max_width})")
-                self.types[col_name] = f'F{max_width}.{decimals}'
+                self.types[col_name] = f'F{pref}.{decimals}'
         else:
             raise ValueError(f"{col_type} is not a valid argument. Use any of 'str', 'int', 'float'")
+
+
+    @staticmethod
+    def _should_be_int(column: pd.Series) -> bool:
+        """
+        Checks if a column of floats should be integers
+        :param column: target column
+        """
+        if all([str(c).split('.')[-1] == "0" for c in column]):
+            return True
+        return False
 
 
     def add_measure(self, col_name: str, measure: str) -> None:
@@ -381,7 +397,7 @@ class Meta:
             self.df.drop(col_name, axis='columns', inplace=True)
 
 
-    def write_to_file(self, filename: str="output.sav", with_open=False) -> None:
+    def write_to_file(self, filename: str="output.sav", overwrite=False, with_open=False) -> None:
         """
         Writes the DataFrame and meta data to an SPSS file
 
@@ -395,7 +411,7 @@ class Meta:
             raise TypeError("filename (param 1) should be a string")
         if not filename.endswith('.sav'):
             filename = filename + '.sav'
-        if os.path.exists(filename):
+        if overwrite and os.path.exists(filename):
             raise FileExistsError(f'filename already exists')
         try:
             prs.write_sav(self.df, 
