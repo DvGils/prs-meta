@@ -22,9 +22,11 @@
 |    ``missing``: dict of column names mapped to their missing ranges
 """
 
+
 import pyreadstat as prs
 import pandas as pd
 import os
+
 
 class Meta:
     """
@@ -75,12 +77,14 @@ class Meta:
 
 
     def _from_file(self):
+        if not os.path.exists(str(self.args[0])):
+            raise IOError(f"'{str(self.args[0])}' does not exist.")
         # Read from file:
-            try:
-                self.df, self.meta = prs.read_sav(self.args[0])
-                self._get()
-            except Exception as e:
-                raise FileNotFoundError(f"unable to readfile: {e}")
+        try:
+            self.df, self.meta = prs.read_sav(str(self.args[0]))
+            self._get()
+        except Exception as e:
+            raise FileNotFoundError(f"unable to readfile: {e}")
 
     
     def _from_df(self):
@@ -119,7 +123,6 @@ class Meta:
         self.missing = {}
         for col in self.df.columns:
             self.new(col)
-
 
 
     def _check_col(self, col_name: str):
@@ -397,7 +400,7 @@ class Meta:
             self.df.drop(col_name, axis='columns', inplace=True)
 
 
-    def write_to_file(self, filename: str="output.sav", overwrite=False, with_open=False) -> None:
+    def write_to_file(self, filename: str="output.sav", with_open=False) -> None:
         """
         Writes the DataFrame and meta data to an SPSS file
 
@@ -411,8 +414,8 @@ class Meta:
             raise TypeError("filename (param 1) should be a string")
         if not filename.endswith('.sav'):
             filename = filename + '.sav'
-        if overwrite and os.path.exists(filename):
-            raise FileExistsError(f'filename already exists')
+        if os.path.exists(filename):
+                raise IOError(f"'{filename}' already exists.")
         try:
             prs.write_sav(self.df, 
                         filename, 
